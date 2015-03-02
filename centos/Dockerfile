@@ -13,8 +13,9 @@ chkconfig smb on; \
 chkconfig nmb on; \
 git clone https://github.com/victor-mejia/dockerfiles.git /tmp/installations-resources; \
 cp /etc/samba/smb.conf /etc/samba/smb.conf.bak; \ 
-cp /tmp/installations-resources/util/smb.conf /etc/samba/smb.conf; \
-ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key && ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key && sed -i "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config 
+cp /tmp/installations-resources/centos/smb.conf /etc/samba/smb.conf; \
+ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key && ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key && sed -i "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config; \
+rm -rf /tmp/installations-resources
 
 ## Change root password
 RUN echo root:admin123 | chpasswd
