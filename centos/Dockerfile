@@ -11,10 +11,10 @@ RUN yum -y install openssh-server openssh-clients samba samba-client samba-commo
 RUN chkconfig sshd on; \
 chkconfig smb on; \
 chkconfig nmb on; \
-git clone https://github.com/victor-mejia/installations-resources.git /tmp/installations-resources; \
+git clone https://github.com/victor-mejia/dockerfiles.git /tmp/installations-resources; \
 cp /etc/samba/smb.conf /etc/samba/smb.conf.bak; \ 
 cp /tmp/installations-resources/util/smb.conf /etc/samba/smb.conf; \
-sed -i "s/.*PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config && sed -i "s/.*X11Forwarding.*/X11Forwarding yes/g" /etc/ssh/sshd_config
+ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key && ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key && sed -i "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config 
 
 ## Change root password
 RUN echo root:admin123 | chpasswd
@@ -29,3 +29,6 @@ EXPOSE 445
 # Start samba and ssh services 
 CMD service smb start; \
 /usr/sbin/sshd -D
+
+#Quickstart command:  
+#docker run -d -p 1022:22 -p 138:138/udp -p 139:139 -p 445:445 -p 445:445/udp -h centos-base --name centos-base [image name]
